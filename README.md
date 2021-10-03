@@ -16,17 +16,6 @@
 3. Lead Data correctness and syncing mechanism is required.
     1. we can use sequlize hooks  on `creation/update/delete` to sync data to ES.
 
-
-Essentials Links:
-
-**Official Node.js client for Elasticsearch**
-
-https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/7.x/introduction.html
-
-**Employees Sample Database**
-
-https://github.com/datacharmer/test_db
-
 **Usage:**
 
 
@@ -42,3 +31,16 @@ POST - http://localhost:3000/employee
 	"gender": "M",
 	"hire_date":"2017-11-10"
 }
+```
+
+# Essentials Links:
+
+**Official Node.js client for Elasticsearch**
+
+https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/7.x/introduction.html
+
+**Employees Sample Database**
+
+https://github.com/datacharmer/test_db
+
+
