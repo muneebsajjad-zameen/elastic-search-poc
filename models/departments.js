@@ -1,13 +1,17 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('departments', {
+const { DeptEmp } = require('../models');
+const { sequelize } = require("../db-connection");  
+
+
+module.exports = function() {
+  const Department = sequelize.define('Departments', {
     dept_no: {
-      type: DataTypes.CHAR(4),
+      type: Sequelize.CHAR(4),
       allowNull: false,
       primaryKey: true
     },
     dept_name: {
-      type: DataTypes.STRING(40),
+      type: Sequelize.STRING(40),
       allowNull: false,
       unique: "dept_name"
     }
@@ -34,4 +38,10 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+
+ Department.associate = function(models) {
+  Department.belongsToMany(models.Employee, { through: DeptEmp });
+  }
+
+  return Department;
 };

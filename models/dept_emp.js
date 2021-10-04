@@ -1,8 +1,10 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('dept_emp', {
+const { Employee } = require('../models');
+const { sequelize } = require("../db-connection");  
+module.exports = function() {
+  const DeptEmp = sequelize.define('DeptEmp', {
     emp_no: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true,
       references: {
@@ -11,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     dept_no: {
-      type: DataTypes.CHAR(4),
+      type: Sequelize.CHAR(4),
       allowNull: false,
       primaryKey: true,
       references: {
@@ -20,11 +22,11 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     from_date: {
-      type: DataTypes.DATEONLY,
+      type: Sequelize.DATEONLY,
       allowNull: false
     },
     to_date: {
-      type: DataTypes.DATEONLY,
+      type: Sequelize.DATEONLY,
       allowNull: false
     }
   }, {
@@ -50,4 +52,11 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+
+  
+    // DeptEmp.associate = function(models) {
+    //   DeptEmp.belongsTo(Employee, { foreignKey: "emp_no" });
+    // }
+
+  return DeptEmp;
 };

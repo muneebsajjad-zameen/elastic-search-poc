@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { DeptEmp } = require('../models');
 const { sequelize } = require("../db-connection");  
 module.exports = function( ) {
   
@@ -6,7 +7,8 @@ module.exports = function( ) {
     emp_no: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true,
     },
     birth_date: {
       type: Sequelize.DATEONLY,
@@ -44,8 +46,12 @@ module.exports = function( ) {
   });
 
   Employee.addHook("afterCreate",  function(obj, options) {
-    console.log('HOOOOK>>>',options);
-  })
+    console.log('HOOOOK>>>',obj);
+  });
+
+  Employee.associate = function(models) {
+    Employee.belongsToMany(models.Departments, { through: DeptEmp });
+  }
 
   return Employee;
 };

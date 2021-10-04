@@ -1,6 +1,9 @@
 const Employee = require("./employees");
-const deptEmp = require("./dept_emp");
+const DeptEmp = require("./dept_emp");
+const Departments = require("./departments");
 
 module.exports = {
-  Employee:Employee()
+  Employee:Employee(),
+  DeptEmp:DeptEmp(),
+  Departments:Departments(),
   };
