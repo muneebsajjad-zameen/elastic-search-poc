@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.15.0",
+    "@opensearch-project/opensearch": "^1.0.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "elastic-builder": "^2.16.0",

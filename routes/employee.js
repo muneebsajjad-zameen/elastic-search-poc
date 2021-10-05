@@ -3,28 +3,44 @@ const {Op} = require('sequelize');
 const { Employee,DeptEmp,Departments } = require('../models');
 const { esClient } = require("../elastic-client"); 
 var mocker = require('mocker-data-generator').default;
+const esb = require('elastic-builder');
+
 var router = express.Router();
 
+const employeeIndex = 'employees';
 /* GET users listing. */
-router.get('/:id', async function(req, res, next) {
-  try {
-    const employeeInfo = await Employee.findOne({
-      where: {
-        emp_no: {
-          [Op.eq]: req.params.id,
-        },
-      },
-      include: [
-        {
-          model: Departments,
-          required: false,
+router.get('/', async function(req, res, next) {
+  //   const employeeInfo = await Employee.findOne({
+  //     where: {
+  //       emp_no: {
+  //         [Op.eq]: req.params.id,
+  //       },
+  //     },
+  //     include: [
+  //       {
+  //         model: Departments,
+  //         required: false,
+  //       }
+  //     ]  
+  //   })
+  // } catch (error) {
+  //   throw error
+  // }
+
+  query = {
+    'query': {
+        'match': {
+            'emp_no': {
+                'query': '939502'
+            }
         }
-      ]  
-    })
-  } catch (error) {
-    throw error
-  }
-  
+    }
+}
+
+  const employeeInfo = await esClient.search({
+    index: employeeIndex,
+    body: query
+  })
 
   res.json(employeeInfo);
 });
@@ -68,13 +84,38 @@ const mockedData = mocker()
     .schema('department', department, 1)
     .buildSync();
 
-  await Promise.all([Employee.create(mockedData.employee[0]),DeptEmp.create(mockedData.department[0])]);
+  // await Promise.all([Employee.create(mockedData.employee[0]),DeptEmp.create(mockedData.department[0])]);
 
-  // esClient.index({
-  //   index: 'employees',
-  //   body: req.body
-  // })
+  const employeeData = {...mockedData.employee[0],
+    department:mockedData.department[0]}
+
+  //------------------ ES insertion ------------------
+
   
+  //   var settings = {
+  //       'settings': {
+  //           'index': {
+  //               'number_of_shards': 4,
+  //               'number_of_replicas': 3
+  //           }
+  //       }
+  //   }
+
+  //   var response = await esClient.indices.create({
+  //       index: employeeIndex,
+  //       body: settings
+  //   })
+
+  //   console.log('Creating index:')
+  //   console.log(response.body)
+
+  const esData =await esClient.index({
+    id:1,
+    index: employeeIndex,
+    body: employeeData,
+    refresh: true
+  })
+  console.log(esData);
   res.json(mockedData); 
 });
 

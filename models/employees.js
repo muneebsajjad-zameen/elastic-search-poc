@@ -46,12 +46,12 @@ module.exports = function( ) {
   });
 
   Employee.addHook("afterCreate",  function(obj, options) {
-    console.log('HOOOOK>>>',obj);
+    // console.log('HOOOOK>>>',obj);
   });
 
-  Employee.associate = function(models) {
-    Employee.belongsToMany(models.Departments, { through: DeptEmp });
-  }
+  // Employee.associate = function(models) {
+  //   Employee.belongsToMany(models.Departments, { through: DeptEmp });
+  // }
 
   return Employee;
 };
